@@ -6,12 +6,14 @@ import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import Icon from '@/components/ui/icon';
 
 export default function Index() {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [scanComplete, setScanComplete] = useState(false);
   const [chatMessage, setChatMessage] = useState('');
+  const [downloadOpen, setDownloadOpen] = useState(false);
   const [messages, setMessages] = useState([
     { type: 'ai', content: 'Привет! Я ИИ-помощник SmartShield. Как могу помочь с вашей безопасностью?' }
   ]);
@@ -39,6 +41,22 @@ export default function Index() {
       ]);
       setChatMessage('');
     }
+  };
+
+  const handleDownload = (platform: string) => {
+    const downloadLinks = {
+      windows: 'https://github.com/smartshield/releases/download/v2.4.1/SmartShield-Setup-Windows-x64.exe',
+      mac: 'https://github.com/smartshield/releases/download/v2.4.1/SmartShield-Setup-macOS.dmg',
+      linux: 'https://github.com/smartshield/releases/download/v2.4.1/SmartShield-Setup-Linux-x64.deb'
+    };
+
+    const link = document.createElement('a');
+    link.href = downloadLinks[platform as keyof typeof downloadLinks];
+    link.download = `SmartShield-${platform}`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setDownloadOpen(false);
   };
 
   const stats = [
@@ -113,10 +131,54 @@ export default function Index() {
               <a href="#reviews" className="text-gray-700 hover:text-shield-green transition-colors">Отзывы</a>
               <a href="#support" className="text-gray-700 hover:text-shield-green transition-colors">Поддержка</a>
             </nav>
-            <Button className="bg-shield-green hover:bg-emerald-600 text-white">
-              <Icon name="Download" className="w-4 h-4 mr-2" />
-              Скачать
-            </Button>
+            <Dialog open={downloadOpen} onOpenChange={setDownloadOpen}>
+              <DialogTrigger asChild>
+                <Button className="bg-shield-green hover:bg-emerald-600 text-white">
+                  <Icon name="Download" className="w-4 h-4 mr-2" />
+                  Скачать
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle>Скачать SmartShield</DialogTitle>
+                  <DialogDescription>
+                    Выберите версию для вашей операционной системы
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-3">
+                  <Button
+                    onClick={() => handleDownload('windows')}
+                    className="w-full bg-shield-green hover:bg-emerald-600 text-white justify-start"
+                  >
+                    <Icon name="Monitor" className="w-5 h-5 mr-3" />
+                    <div className="text-left">
+                      <div className="font-medium">Windows</div>
+                      <div className="text-sm opacity-75">SmartShield v2.4.1 для Windows 10/11</div>
+                    </div>
+                  </Button>
+                  <Button
+                    onClick={() => handleDownload('mac')}
+                    className="w-full bg-shield-green hover:bg-emerald-600 text-white justify-start"
+                  >
+                    <Icon name="Laptop" className="w-5 h-5 mr-3" />
+                    <div className="text-left">
+                      <div className="font-medium">macOS</div>
+                      <div className="text-sm opacity-75">SmartShield v2.4.1 для macOS 12+</div>
+                    </div>
+                  </Button>
+                  <Button
+                    onClick={() => handleDownload('linux')}
+                    className="w-full bg-shield-green hover:bg-emerald-600 text-white justify-start"
+                  >
+                    <Icon name="Terminal" className="w-5 h-5 mr-3" />
+                    <div className="text-left">
+                      <div className="font-medium">Linux</div>
+                      <div className="text-sm opacity-75">SmartShield v2.4.1 для Ubuntu/Debian</div>
+                    </div>
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
       </header>
@@ -136,10 +198,54 @@ export default function Index() {
               Анализируйте поведение файлов, мониторьте трафик и получайте защиту следующего уровня.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-shield-green hover:bg-emerald-600 text-white px-8 py-6 text-lg">
-                <Icon name="Download" className="w-5 h-5 mr-2" />
-                Скачать бесплатно
-              </Button>
+              <Dialog open={downloadOpen} onOpenChange={setDownloadOpen}>
+                <DialogTrigger asChild>
+                  <Button size="lg" className="bg-shield-green hover:bg-emerald-600 text-white px-8 py-6 text-lg">
+                    <Icon name="Download" className="w-5 h-5 mr-2" />
+                    Скачать бесплатно
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md">
+                  <DialogHeader>
+                    <DialogTitle>Скачать SmartShield</DialogTitle>
+                    <DialogDescription>
+                      Выберите версию для вашей операционной системы
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="space-y-3">
+                    <Button
+                      onClick={() => handleDownload('windows')}
+                      className="w-full bg-shield-green hover:bg-emerald-600 text-white justify-start"
+                    >
+                      <Icon name="Monitor" className="w-5 h-5 mr-3" />
+                      <div className="text-left">
+                        <div className="font-medium">Windows</div>
+                        <div className="text-sm opacity-75">SmartShield v2.4.1 для Windows 10/11</div>
+                      </div>
+                    </Button>
+                    <Button
+                      onClick={() => handleDownload('mac')}
+                      className="w-full bg-shield-green hover:bg-emerald-600 text-white justify-start"
+                    >
+                      <Icon name="Laptop" className="w-5 h-5 mr-3" />
+                      <div className="text-left">
+                        <div className="font-medium">macOS</div>
+                        <div className="text-sm opacity-75">SmartShield v2.4.1 для macOS 12+</div>
+                      </div>
+                    </Button>
+                    <Button
+                      onClick={() => handleDownload('linux')}
+                      className="w-full bg-shield-green hover:bg-emerald-600 text-white justify-start"
+                    >
+                      <Icon name="Terminal" className="w-5 h-5 mr-3" />
+                      <div className="text-left">
+                        <div className="font-medium">Linux</div>
+                        <div className="text-sm opacity-75">SmartShield v2.4.1 для Ubuntu/Debian</div>
+                      </div>
+                    </Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
               <Button size="lg" variant="outline" className="px-8 py-6 text-lg border-shield-green text-shield-green hover:bg-shield-green hover:text-white">
                 <Icon name="Play" className="w-5 h-5 mr-2" />
                 Смотреть демо
@@ -340,11 +446,20 @@ export default function Index() {
             <h3 className="text-4xl font-bold mb-4">Готовы к защите следующего уровня?</h3>
             <p className="text-xl mb-8 opacity-90">Скачайте SmartShield и защитите свои данные уже сегодня</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-white text-shield-green hover:bg-gray-100 px-8 py-6">
+              <Button 
+                size="lg" 
+                className="bg-white text-shield-green hover:bg-gray-100 px-8 py-6"
+                onClick={() => handleDownload('windows')}
+              >
                 <Icon name="Download" className="w-5 h-5 mr-2" />
                 Скачать для Windows
               </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-shield-green px-8 py-6">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-white text-white hover:bg-white hover:text-shield-green px-8 py-6"
+                onClick={() => handleDownload('mac')}
+              >
                 <Icon name="Download" className="w-5 h-5 mr-2" />
                 Скачать для Mac
               </Button>
