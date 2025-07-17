@@ -45,9 +45,11 @@ export default function Index() {
 
   const handleDownload = (platform: string) => {
     const downloadLinks = {
-      windows: 'https://github.com/smartshield/releases/download/v2.4.1/SmartShield-Setup-Windows-x64.exe',
-      mac: 'https://github.com/smartshield/releases/download/v2.4.1/SmartShield-Setup-macOS.dmg',
-      linux: 'https://github.com/smartshield/releases/download/v2.4.1/SmartShield-Setup-Linux-x64.deb'
+      windows: 'https://smartshield.antivirus.com/download/SmartShield-Setup-Windows-x64.exe',
+      windows7: 'https://smartshield.antivirus.com/download/legacy/SmartShield-Setup-Windows7-x86.exe',
+      windows8: 'https://smartshield.antivirus.com/download/legacy/SmartShield-Setup-Windows8-x64.exe',
+      mac: 'https://smartshield.antivirus.com/download/SmartShield-Setup-macOS.dmg',
+      linux: 'https://smartshield.antivirus.com/download/SmartShield-Setup-Linux-x64.deb'
     };
 
     const link = document.createElement('a');
@@ -138,7 +140,7 @@ export default function Index() {
                   Скачать
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-md">
+              <DialogContent className="sm:max-w-lg">
                 <DialogHeader>
                   <DialogTitle>Скачать SmartShield</DialogTitle>
                   <DialogDescription>
@@ -205,7 +207,7 @@ export default function Index() {
                     Скачать бесплатно
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-md">
+                <DialogContent className="sm:max-w-lg">
                   <DialogHeader>
                     <DialogTitle>Скачать SmartShield</DialogTitle>
                     <DialogDescription>
@@ -219,8 +221,28 @@ export default function Index() {
                     >
                       <Icon name="Monitor" className="w-5 h-5 mr-3" />
                       <div className="text-left">
-                        <div className="font-medium">Windows</div>
-                        <div className="text-sm opacity-75">SmartShield v2.4.1 для Windows 10/11</div>
+                        <div className="font-medium">Windows 10/11</div>
+                        <div className="text-sm opacity-75">SmartShield v2.4.1 (64-bit)</div>
+                      </div>
+                    </Button>
+                    <Button
+                      onClick={() => handleDownload('windows8')}
+                      className="w-full bg-shield-green hover:bg-emerald-600 text-white justify-start"
+                    >
+                      <Icon name="Monitor" className="w-5 h-5 mr-3" />
+                      <div className="text-left">
+                        <div className="font-medium">Windows 8/8.1</div>
+                        <div className="text-sm opacity-75">SmartShield v2.3.8 (64-bit)</div>
+                      </div>
+                    </Button>
+                    <Button
+                      onClick={() => handleDownload('windows7')}
+                      className="w-full bg-shield-green hover:bg-emerald-600 text-white justify-start"
+                    >
+                      <Icon name="Monitor" className="w-5 h-5 mr-3" />
+                      <div className="text-left">
+                        <div className="font-medium">Windows 7</div>
+                        <div className="text-sm opacity-75">SmartShield v2.2.5 (32-bit)</div>
                       </div>
                     </Button>
                     <Button
